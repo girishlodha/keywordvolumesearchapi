@@ -1,19 +1,18 @@
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors'); 
+const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const corsOptions = {
     origin: 'http://localhost:3000', // Replace with the actual origin of your frontend
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
-  };
-  
+};
 
 const app = express();
 const apiKey = process.env.KEYSTRING;
-const uri = 'mongodb+srv://girish08:FjoDHJd2iNSkXI8i@cluster0.v4xzcgf.mongodb.net/';
+const uri = process.env.URI;
 let client; // Declare client at the top-level scope
 app.use(cors(corsOptions))
 
@@ -36,6 +35,8 @@ app.get('/api/data', async (req, res) => {
 
         const limit = 100; // Maximum limit per request
         let offset = 0;
+        const database = client.db('KeywordSearch');
+        const collection = database.collection('titleandviews');
 
         while (true) {
             const response = await axios.get('https://openapi.etsy.com/v3/application/listings/active', {
@@ -118,7 +119,7 @@ app.get('/api/mongo-data', async (req, res) => {
         const wordViewsArray = database.collection('wordViewsArray');
         const wordMedianArray = database.collection('wordMedianArray');
 
-       
+
 
         const result = {};
 
