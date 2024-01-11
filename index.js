@@ -6,7 +6,7 @@ const MongoClient = require('mongodb').MongoClient;
 const corsOptions = {
     origin:"*"
 };
-
+const PORT = process.env.PORT || 5000;
 const app = express();
 const apiKey = process.env.KEYSTRING;
 const uri = process.env.URI;
@@ -190,7 +190,7 @@ process.on('SIGINT', async () => {
     process.exit();
 });
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
     console.log(`Server is running on port 5000`);
 });
 
